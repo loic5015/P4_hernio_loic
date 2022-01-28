@@ -14,7 +14,7 @@ class Player:
     def get_surname(self) -> str:
         return self.surname
 
-    def get_date_of_bith(self) -> str:
+    def get_date_of_birth(self) -> str:
         return self.date_of_birth
 
     def get_gender(self) -> str:
@@ -22,3 +22,11 @@ class Player:
 
     def get_ranking(self) -> int:
         return self.ranking
+
+    def __str__(self):
+        """Used in print."""
+        return f"{self.name}  {self.surname}"
+
+    def __repr__(self):
+        """Used in print."""
+        return str(self)
