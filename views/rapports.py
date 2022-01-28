@@ -1,8 +1,9 @@
-START_MENU = ["gérez un nouveau tournoi", "visualisez le menu des rapports", "sortir du programme"]
+REPORT_MENU = ["Liste de tous les tournois.", "Liste de tous les tours d'un tournoi.",
+               "Liste de tous les matchs d'un tournoi."]
 
 
-class StartMenu:
-    """basic menu"""
+class report:
+"""views of the report page"""
 
     def prompt_for_choice(self) -> int:
         """prompt for choice menu"""
@@ -11,28 +12,19 @@ class StartMenu:
         indice = None
         while condition:
             print("Choississez l'action à réaliser:")
-            for choice in START_MENU:
+            for choice in REPORT_MENU:
                 print(f"[{i} . {choice}]")
                 i = i + 1
             try:
-                indice = int(input("taper 0 ou " + str(len(START_MENU) - 1) + " : "))
+                indice = int(input("taper 0 ou " + str(len(REPORT_MENU) - 1) + " : "))
             except ValueError:
                 print("Erreur: Vous devez taper un nombre !!")
                 i = 0
             else:
-                if indice not in [x for x in range(len(START_MENU))]:
+                if indice not in [x for x in range(len(REPORT_MENU))]:
                     print("Votre choix est incorrect !")
                     i = 0
                     self.prompt_for_choice()
                 else:
                     condition = False
                     return indice
-
-
-    def prompt_for_new_game(self):
-        """Request to replay."""
-        print("Souhaitez vous refaire un tournoi ?")
-        choice = input("Y/n: ")
-        if choice == "n":
-            return False
-        return True

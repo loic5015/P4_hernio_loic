@@ -8,6 +8,6 @@ class Association:
         self.player = player
         self.result = 0
 
-    def post_result(self, result):
+    def post_result(self, result) -> None:
         self.result = result
 
