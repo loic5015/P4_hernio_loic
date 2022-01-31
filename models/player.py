@@ -1,6 +1,6 @@
 class Player:
 
-    def __init__(self, name: str, surname: str, date_of_birth: str, gender: str, ranking: int):
+    def __init__(self, name: str, surname: str, date_of_birth: str, gender: str, ranking: float):
         """initialize name, surname, date of birth, gender and ranking"""
         self.name = name
         self.surname = surname
@@ -20,12 +20,12 @@ class Player:
     def get_gender(self) -> str:
         return self.gender
 
-    def get_ranking(self) -> int:
+    def get_ranking(self) -> float:
         return self.ranking
 
     def __str__(self):
         """Used in print."""
-        return f"{self.name}  {self.surname}"
+        return f"{self.name} {self.surname} {self.ranking}"
 
     def __repr__(self):
         """Used in print."""

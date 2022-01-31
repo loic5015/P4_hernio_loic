@@ -1,5 +1,5 @@
-MENU_TOURNAMENT = ["créez un nouveau tournoi", "ajoutez un joueur", "lancez la partie", "generez un nouveau tour",
-                   "affichez les tours", "entrez les résultats", "revenir au menu principal"]
+MENU_TOURNAMENT = ["créer un nouveau tournoi", "ajouter un joueur", "generer un nouveau tour",
+                   "afficher les tours", "entrer les résultats", "revenir au menu principal"]
 
 TIME_CONTROL = ["bullet", "blitz", "coup rapide"]
 
@@ -91,7 +91,7 @@ class TournamentMenu:
         ranking = None
         while condition:
             try:
-                ranking = int(input("Entrez le classement du joueur :"))
+                ranking = float(input("Entrez le classement du joueur :"))
             except ValueError:
                 print("Vous devez taper un nombre !")
             else:
@@ -107,13 +107,32 @@ class TournamentMenu:
         """warning message tournament has not been created"""
         print("Vous devez creer un tournoi !")
 
+    def tour_has_been_create(self):
+        """warning message tournament has not been created"""
+        print("Vous devez creer un tour !")
+
     def display_tour(self, tournament):
         """display the tours"""
         for tour in tournament.tours:
-            print(tour.name + " " + tour.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S'))
+            print(tour.name + " " + tour.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S') + " " +
+                  tour.end_time.strftime('%m/%d/%Y, %H:%M:%S') if tour.end_time is not None else "")
             for matchs in tour.tour:
                 i = 1
                 for match in matchs:
-                    print("match " + i + " :")
+                    print("match " + str(i) + " :")
                     print(match)
                     i = i + 1
+
+    def enter_result(self, association):
+        """enter result"""
+        condition = True
+        score = None
+        while condition:
+            try:
+                print("Entrer le résultat pour le joueur :")
+                score = float(input(str(association) + " : "))
+            except ValueError:
+                print("Vous devez entrer un nombre !")
+            else:
+                condition = False
+        return score

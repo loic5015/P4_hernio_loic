@@ -13,6 +13,9 @@ class Tour:
     def add_match(self, match: list) -> None:
         self.tour.append(match)
 
+    def list_match(self) -> list:
+        return self.tour
+
     def create_end_time(self) -> None:
         self.end_time = datetime.datetime.now()
 
