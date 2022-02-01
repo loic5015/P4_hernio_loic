@@ -22,6 +22,7 @@ class Controller:
         tournament_list = self.tournament_menu.create_new_tournament()
         self.tournament = Tournament(tournament_list[0], tournament_list[1], tournament_list[2], tournament_list[3],
                                 tournament_list[4])
+        self.tour = None
         self.choice_tournament()
 
     def add_player(self):
