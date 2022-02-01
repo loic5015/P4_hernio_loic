@@ -100,6 +100,10 @@ class TournamentMenu:
         """warning message number of players reach"""
         print("Vous avez atteint le nombre maximum de joueurs !")
 
+    def number_player_not_reach(self):
+        """warning message number of players not reach"""
+        print("ils manquent des joueurs pour lancer le tournoi !")
+
     def tournoi_has_been_create(self):
         """warning message tournament has not been created"""
         print("Vous devez creer un tournoi !")

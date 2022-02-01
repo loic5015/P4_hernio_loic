@@ -11,12 +11,11 @@ class Tour:
         self.end_time = None
 
     def add_match(self, match: list) -> None:
+        """add match in tour"""
         self.tour.append(match)
 
-    def list_match(self) -> list:
-        return self.tour
-
     def create_end_time(self) -> None:
+        """enter a value in self.end_time"""
         self.end_time = datetime.datetime.now()
 
     def __str__(self):
@@ -25,4 +24,5 @@ class Tour:
 
     def __repr__(self):
         """Used in print."""
-        return str(self)
+        return {'name': self.name, 'tour': self.tour, 'beginning_hour': self.beginning_hour.isoformat(),
+                'end_time': self.end_time.isoformat()}

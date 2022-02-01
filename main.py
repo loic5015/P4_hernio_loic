@@ -1,3 +1,4 @@
+from tinydb import TinyDB
 from controllers.base import Controller
 from views.start_menu import StartMenu
 from views.tournament import TournamentMenu
@@ -5,7 +6,8 @@ from views.tournament import TournamentMenu
 def main():
     start_menu = StartMenu()
     tournament_menu = TournamentMenu()
-    game = Controller(start_menu, tournament_menu)
+    db = TinyDB('db.json')
+    game = Controller(start_menu, tournament_menu, db)
     game.run()
 
 

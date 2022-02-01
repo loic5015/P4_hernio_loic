@@ -1,3 +1,5 @@
+import tinydb.table
+from tinydb import TinyDB, where
 from views.start_menu import StartMenu
 from views.tournament import TournamentMenu
 from models.tournament import Tournament
@@ -11,9 +13,10 @@ NAME_OF_TOUR = "Round"
 
 class Controller:
 
-    def __init__(self, start_menu: StartMenu, tournament_menu: TournamentMenu):
+    def __init__(self, start_menu: StartMenu, tournament_menu: TournamentMenu, db: TinyDB):
         self.start_menu = start_menu
         self.tournament_menu = tournament_menu
+        self.db = db
         self.tournament = None
         self.tour = None
 
@@ -22,6 +25,12 @@ class Controller:
         tournament_list = self.tournament_menu.create_new_tournament()
         self.tournament = Tournament(tournament_list[0], tournament_list[1], tournament_list[2], tournament_list[3],
                                 tournament_list[4])
+        db_tournament = self.db.table('tour')
+        verify_tournament = db_tournament.search((where('name') == self.tournament.name) &
+                                         (where('location') == self.tournament.location) &
+                                         (where('date') == self.tournament.date))
+        if not verify_tournament:
+            db_tournament.insert(self.tournament.__repr__())
         self.tour = None
         self.choice_tournament()
 
@@ -31,6 +40,13 @@ class Controller:
             if self.count_number_of_player():
                 player_list = self.tournament_menu.add_player()
                 player = Player(player_list[0], player_list[1], player_list[2], player_list[3], player_list[4])
+                db_player = self.db.table('player')
+                verify_player = db_player.search((where('name') == player.name) & (where('surname') == player.surname))
+                if verify_player:
+                    db_player.update({'ranking': player.ranking}, (where('name') == player.name) &
+                                     (where('surname') == player.surname))
+                else:
+                    db_player.insert(player.__repr__())
                 self.tournament.add_players(player)
             else:
                 self.tournament_menu.nombre_max_atteint()
@@ -109,31 +125,34 @@ class Controller:
 
     def create_round(self):
         """generate the round of the match"""
-        list_association = self.test_tour_isNone()
-        ranking_classement = self.sort_by_ranking(list_association)
-        condition = True
-        i = 0
-        matchs = []
-        number_of_tour = 0
-        while condition:
-            if len(self.tournament.tours) == 0:
-                match = ([ranking_classement[i]], [ranking_classement[i+4]])
-                i = i + 1
-                if i >= self.tournament.numbers_of_turn:
-                    condition = False
-            else:
-                match = ([ranking_classement[i]], [ranking_classement[i+1]])
-                i = i + 2
-                number_of_tour = len(self.tournament.tours)
-                if i >= NUMBER_OF_PLAYER - 1:
-                    condition = False
-            matchs.append(match)
+        if not self.count_number_of_player():
+            list_association = self.test_tour_isNone()
+            ranking_classement = self.sort_by_ranking(list_association)
+            condition = True
+            i = 0
+            matchs = []
+            number_of_tour = 0
+            while condition:
+                if len(self.tournament.tours) == 0:
+                    match = ([ranking_classement[i]], [ranking_classement[i+4]])
+                    i = i + 1
+                    if i >= self.tournament.numbers_of_turn:
+                        condition = False
+                else:
+                    match = ([ranking_classement[i]], [ranking_classement[i+1]])
+                    i = i + 2
+                    number_of_tour = len(self.tournament.tours)
+                    if i >= NUMBER_OF_PLAYER - 1:
+                        condition = False
+                matchs.append(match)
 
-        self.tour = Tour(NAME_OF_TOUR + " " + str(number_of_tour))
-        print(self.tour)
-        self.tour.add_match(matchs)
-        print([x for x in self.tour.tour])
-        self.tournament.add_tours(self.tour)
+            self.tour = Tour(NAME_OF_TOUR + " " + str(number_of_tour))
+            print(self.tour)
+            self.tour.add_match(matchs)
+            print([x for x in self.tour.tour])
+            self.tournament.add_tours(self.tour)
+        else:
+            self.tournament_menu.number_player_not_reach()
         self.choice_tournament()
 
     def enter_result(self):
@@ -156,6 +175,8 @@ class Controller:
         """launch the start menu"""
         running = True
         while running:
+            db_tournament = self.db.table('tournament')
+            db_association = self.db.table('association')
             main_menu = self.start_menu.prompt_for_choice()
             if main_menu == 0:
                 self.choice_tournament()
@@ -164,6 +185,9 @@ class Controller:
             elif main_menu == 2:
                 running = False
             running = self.start_menu.prompt_for_new_game()
-            print(self.tournament)
-            print(self.tournament.players)
-            print(self.tournament.tours)
+        db_player = self.db.table('player')
+        db_tour = self.db.table('tour')
+        print(db_tour.all())
+        print(db_player.all())
+        print(self.tournament)
+

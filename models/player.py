@@ -29,4 +29,5 @@ class Player:
 
     def __repr__(self):
         """Used in print."""
-        return str(self)
+        return {'name': self.name, 'surname': self.surname, 'day_of_birth': self.date_of_birth, 'gender': self.gender,
+                'ranking': self.ranking}
