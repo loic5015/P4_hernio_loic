@@ -3,12 +3,14 @@ import datetime
 
 class Tour:
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, dict_tour: dict) -> None:
         """initialize name, tour, beginning hour, end time"""
         self.name = name
         self.tour = []
         self.beginning_hour = datetime.datetime.now()
         self.end_time = None
+        for key in dict_tour:
+            setattr(self, key, dict_tour[key])
 
     def add_match(self, match: list) -> None:
         """add match in tour"""

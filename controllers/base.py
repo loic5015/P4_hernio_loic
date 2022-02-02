@@ -143,6 +143,7 @@ class Controller:
             i = 0
             matchs = []
             list_match = []
+            tour_dict = {}
             number_of_tour = 0
             while condition:
                 if len(self.tournament.tours) == 0:
@@ -160,8 +161,8 @@ class Controller:
                         condition = False
                 matchs.append(match)
                 list_match.append(dict_match)
-
-            self.tour = Tour(NAME_OF_TOUR + " " + str(number_of_tour))
+            tour_dict['name'] =  NAME_OF_TOUR + " " + str(number_of_tour)
+            self.tour = Tour(tour_dict)
             print(self.tour)
             self.tour.add_match(matchs)
             self.db_matchs.append(list_match)
