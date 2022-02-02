@@ -28,13 +28,9 @@ class Tournament:
         """add new tour in tournament"""
         self.tours.append(tour)
 
-    def set_attribute_tournament(self, dict_player: dict):
-        for key in dict_player:
-            setattr(self, key, dict_player[key])
-
     def __str__(self):
         """Used in print."""
-        return f"{self.name} de {self.location}"
+        return f"{self.name:15} {self.location:15} {self.date}"
 
     def __repr__(self):
         """Used in print."""
