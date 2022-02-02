@@ -205,6 +205,7 @@ class Controller:
         self.start_menu.prompt_for_choice()
 
     def choice_report(self):
+        """choice menu report"""
         menu_report = self.report.prompt_for_choice()
         if menu_report == 0:
             self.sort_player_by_alphabetical_name()
@@ -222,6 +223,7 @@ class Controller:
             self.report.prompt_for_choice()
 
     def extract_list(self, table: str) -> list:
+        """extract data from table et instantiate object tournament or player"""
         db_table = self.db.table(table)
         list = db_table.all()
         list_object = []
@@ -237,18 +239,21 @@ class Controller:
         return list_object
 
     def sort_player_by_ranking(self):
+        """sort player by ranking"""
         players = self.extract_list("player")
         list_sorted = self.sort_players_ranking(players)
         self.report.display_list(list_sorted)
         self.report.prompt_for_choice()
 
     def sort_player_by_alphabetical_name(self):
+        """sort player by alphabetical name"""
         players = self.extract_list("player")
         list_sorted = self.sort_players_alphabetical(players)
         self.report.display_list(list_sorted)
         self.report.prompt_for_choice()
 
     def sort_tournament_by_alphabetical_name(self):
+        """sort tournament by alphabetical name"""
         tournament = self.extract_list("tournament")
         list_sorted = self.sort_players_alphabetical(tournament)
         self.report.display_list(list_sorted)
