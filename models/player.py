@@ -23,6 +23,10 @@ class Player:
     def get_ranking(self) -> float:
         return self.ranking
 
+    def set_attribute_player(self, dict_player: dict):
+        for key in dict_player:
+            setattr(self, key, dict_player[key])
+
     def __str__(self):
         """Used in print."""
         return f"{self.name} {self.surname} {self.ranking}"

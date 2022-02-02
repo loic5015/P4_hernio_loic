@@ -2,12 +2,14 @@ from tinydb import TinyDB
 from controllers.base import Controller
 from views.start_menu import StartMenu
 from views.tournament import TournamentMenu
+from views.report import Report
 
 def main():
     start_menu = StartMenu()
     tournament_menu = TournamentMenu()
     db = TinyDB('db.json')
-    game = Controller(start_menu, tournament_menu, db)
+    report = Report()
+    game = Controller(start_menu, tournament_menu, db, report)
     game.run()
 
 

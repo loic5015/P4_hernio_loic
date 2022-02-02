@@ -23,4 +23,4 @@ class Association:
 
     def __repr__(self):
         """Used in print."""
-        return {'player': self.player, 'result': self.result}
+        return {'player': self.player.__repr__(), 'result': self.result}

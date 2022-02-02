@@ -1,4 +1,5 @@
-ITEM_MENU = ["gérer un nouveau tournoi", "visualiser le menu des rapports", "sortir du programme"]
+ITEM_MENU = ["gérer un nouveau tournoi", "visualiser le menu des rapports", "modifier le classement d'un joueur",
+             "sortir du programme"]
 
 
 class StartMenu:
@@ -36,3 +37,28 @@ class StartMenu:
         if choice == "n":
             return False
         return True
+
+    def find_player(self):
+        """enter parameters to find a player"""
+        player = []
+        name = input("Entrez le nom du joueur :")
+        player.append(name)
+        surname = input("Entrez le prénom du joueur :")
+        player.append(surname)
+        date_of_birth = input("Entrez la date de naissance du joueur :")
+        player.append(date_of_birth)
+        current_menu = True
+        ranking = None
+        while current_menu:
+            try:
+                ranking = float(input("Entrez le classement du joueur :"))
+            except ValueError:
+                print("Vous devez taper un nombre !")
+            else:
+                current_menu = False
+        player.append(ranking)
+        return player
+
+    def unknow_player(self):
+        """warning message number of players reach"""
+        print("joueur inconnu !")
