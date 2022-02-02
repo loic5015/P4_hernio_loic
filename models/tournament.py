@@ -7,16 +7,18 @@ from .tour import Tour
 class Tournament:
     """models of tournament"""
 
-    def __init__(self, name: str, location: str, time_control: str, description: str, numbers_of_turn=4) -> None:
+    def __init__(self, dict_tournament: dict) -> None:
         """initialize name, location, date, time_control, description, numbers of turn, players and tours"""
-        self.name = name
-        self.location = location
+        self.name = None
+        self.location = None
         self.date = datetime.date.today()
-        self.time_control = time_control
-        self.description = description
-        self.numbers_of_turn = numbers_of_turn
+        self.time_control = None
+        self.description = None
+        self.numbers_of_turn = None
         self.players = []
         self.tours = []
+        for key in dict_tournament:
+            setattr(self, key, dict_tournament[key])
 
     def add_players(self, player: Player) -> None:
         """add new players in tournament"""

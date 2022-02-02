@@ -25,9 +25,8 @@ class Controller:
 
     def create_tournament(self):
         """instantiate a new tournament"""
-        tournament_list = self.tournament_menu.create_new_tournament()
-        self.tournament = Tournament(tournament_list[0], tournament_list[1], tournament_list[2], tournament_list[3],
-                                tournament_list[4])
+        tournament_dict = self.tournament_menu.create_new_tournament()
+        self.tournament = Tournament(tournament_dict)
         db_tournament = self.db.table('tournament')
         verify_tournament = db_tournament.search((where('name') == self.tournament.name) &
                                          (where('location') == self.tournament.location) &
@@ -42,15 +41,15 @@ class Controller:
         """instantiate a new player"""
         if self.tournament is not None:
             if self.count_number_of_player():
-                player_list = self.tournament_menu.add_player()
-                player = Player(player_list[0], player_list[1], player_list[2], player_list[3], player_list[4])
+                player_dict = self.tournament_menu.add_player()
+                player = Player(player_dict)
                 db_player = self.db.table('player')
                 verify_player = db_player.search((where('name') == player.name) & (where('surname') == player.surname))
                 if verify_player:
                     db_player.update({'ranking': player.ranking}, (where('name') == player.name) &
                                      (where('surname') == player.surname))
                 else:
-                    db_player.insert(player.__repr__())
+                    db_player.insert(player_dict)
                 self.tournament.add_players(player)
                 db_tournament = self.db.table('tournament')
                 verify_tournament = db_tournament.search((where('name') == self.tournament.name) &
@@ -201,7 +200,7 @@ class Controller:
             db_player.update({'ranking': player[3]}, (where('name') == player[0]) &
                              (where('surname') == player[1]) & (where('day_of_birth') == player[2]))
         else:
-            db_player.insert(player.__repr__())
+            self.start_menu.unknow_player()
         self.start_menu.prompt_for_choice()
 
     def choice_report(self):
@@ -229,12 +228,10 @@ class Controller:
         list_object = []
         for dic in list:
             if table == "tournament":
-                tournament = Tournament('', '', '', '', 0)
-                tournament.set_attribute_tournament(dic)
+                tournament = Tournament(dic)
                 list_object.append(tournament)
             elif table == "player":
-                player = Player('', '', '', '', 0)
-                player.set_attribute_player(dic)
+                player = Player(dic)
                 list_object.append(player)
         return list_object
 

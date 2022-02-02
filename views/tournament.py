@@ -27,13 +27,13 @@ class TournamentMenu:
                 current_menu = False
                 return choice
 
-    def create_new_tournament(self) -> list:
+    def create_new_tournament(self) -> dict:
         """create a new tournament"""
-        tournament = []
+        tournament = {}
         time_control = None
         number_of_turns = None
-        name = input("Quel est le nom du tournoi ?")
-        localisation = input("Quel est le lieu du tournoi ?")
+        tournament['name'] = input("Quel est le nom du tournoi ?")
+        tournament['localisation'] = input("Quel est le lieu du tournoi ?")
         i = 0
         current_menu = True
         index = None
@@ -53,37 +53,34 @@ class TournamentMenu:
                     i = 0
                 else:
                     current_menu = False
-        description = input("Entrez une description pour le tournoi.")
+        tournament['description'] = input("Entrez une description pour le tournoi.")
         current_menu = True
         while current_menu:
             number_of_turns = input("Entrez le nombre de tour (facultatif par défaut 4) :")
             if number_of_turns is not None:
                 try:
-                    number_of_turns = int(number_of_turns)
+                    tournament['number_of_turns'] = int(number_of_turns)
                 except ValueError:
                     print("Vous n'avez pas rentré un nombre !!")
                 else:
-                    number_of_turns = 4
                     current_menu = False
+            else:
+                tournament['number_of_turns'] = 4
 
-        tournament.append(name)
-        tournament.append(localisation)
-        tournament.append(TIME_CONTROL[index])
-        tournament.append(description)
-        tournament.append(number_of_turns)
+        tournament['time_control'] = TIME_CONTROL[index]
         return tournament
 
-    def add_player(self) -> list:
+    def add_player(self) -> dict:
         """add a player"""
-        player = []
+        player = {}
         name = input("Entrez le nom du joueur :")
-        player.append(name)
+        player['name'] = name
         surname = input("Entrez le prénom du joueur :")
-        player.append(surname)
+        player['surname'] = surname
         date_of_birth = input("Entrez la date de naissance du joueur :")
-        player.append(date_of_birth)
+        player['date_of_birth'] = date_of_birth
         gender = input("Entrez le sexe du joueur :")
-        player.append(gender)
+        player['gender'] = gender
         current_menu = True
         ranking = None
         while current_menu:
@@ -93,7 +90,7 @@ class TournamentMenu:
                 print("Vous devez taper un nombre !")
             else:
                 current_menu = False
-        player.append(ranking)
+        player['ranking'] = ranking
         return player
 
     def nombre_max_atteint(self):

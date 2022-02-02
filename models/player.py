@@ -1,12 +1,14 @@
 class Player:
 
-    def __init__(self, name: str, surname: str, date_of_birth: str, gender: str, ranking: float):
+    def __init__(self, dict_player: dict):
         """initialize name, surname, date of birth, gender and ranking"""
-        self.name = name
-        self.surname = surname
-        self.date_of_birth = date_of_birth
-        self.gender = gender
-        self.ranking = ranking
+        self.name = None
+        self.surname = None
+        self.date_of_birth = None
+        self.gender = None
+        self.ranking = None
+        for key in dict_player:
+            setattr(self, key, dict_player[key])
 
     def get_name(self) -> str:
         return self.name
