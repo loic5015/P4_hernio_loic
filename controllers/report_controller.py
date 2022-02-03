@@ -1,15 +1,14 @@
 from tinydb import TinyDB, where
-from main_controller import MainController
 from views.report import Report
 from models.tournament import Tournament
 from models.player import Player
+#from .main_controller import Main
 
 
 class ReportController:
 
     def __init__(self):
         self.report_view = Report()
-        self.main_controller = MainController()
         self.db = TinyDB('db.json')
 
     def choice_report(self):
@@ -28,7 +27,8 @@ class ReportController:
         elif menu_report == 5:
             self.sort_tournament_by_alphabetical_name()
         elif menu_report == 7:
-            self.main_controller.run()
+            #self.main.run()
+            pass
         else:
             self.choice_report()
 
