@@ -1,5 +1,5 @@
 ITEM_TOURNAMENT = ["créer un nouveau tournoi", "ajouter un joueur", "generer un nouveau tour",
-                   "afficher les tours", "entrer les résultats", "revenir au menu principal"]
+                   "afficher les tours", "entrer les résultats", "reprendre un tournoi", "revenir au menu principal"]
 
 TIME_CONTROL = ["bullet", "blitz", "coup rapide"]
 
@@ -27,13 +27,35 @@ class TournamentMenu:
                 current_menu = False
                 return choice
 
+    def prompt_for_resume_tournament(self, list_object: list) -> int:
+        """prompt for tournament menu"""
+        print("Choississez l'action à réaliser:")
+        i = 0
+        current_menu = True
+        choice = None
+        while current_menu:
+            for tournament in list_object:
+                print(f"[{i} . {tournament}]")
+                i = i + 1
+            try:
+                choice = int(input("tapez votre choix de 0 à " + str(len(list_object) - 1) + " : "))
+            except ValueError:
+                print("Erreur: Vous devez taper un nombre !!")
+            else:
+                if choice not in [x for x in range(len(list_object))]:
+                    print("Votre choix est incorrect !")
+                    i = 0
+                    self.prompt_for_resume_tournament()
+                current_menu = False
+            return choice
+
     def create_new_tournament(self) -> dict:
         """create a new tournament"""
         tournament = {}
         time_control = None
         number_of_turns = None
         tournament['name'] = input("Quel est le nom du tournoi ?")
-        tournament['localisation'] = input("Quel est le lieu du tournoi ?")
+        tournament['location'] = input("Quel est le lieu du tournoi ?")
         i = 0
         current_menu = True
         index = None
@@ -56,17 +78,12 @@ class TournamentMenu:
         tournament['description'] = input("Entrez une description pour le tournoi.")
         current_menu = True
         while current_menu:
-            number_of_turns = input("Entrez le nombre de tour (facultatif par défaut 4) :")
-            if number_of_turns is not None:
-                try:
-                    tournament['number_of_turns'] = int(number_of_turns)
-                except ValueError:
-                    print("Vous n'avez pas rentré un nombre !!")
-                else:
-                    current_menu = False
+            try:
+                tournament['numbers_of_turn'] = int(input("Entrez le nombre de tour (facultatif par défaut 4) :"))
+            except ValueError:
+                print("Vous n'avez pas rentré un nombre !!")
             else:
-                tournament['number_of_turns'] = 4
-
+                current_menu = False
         tournament['time_control'] = TIME_CONTROL[index]
         return tournament
 
@@ -112,14 +129,15 @@ class TournamentMenu:
     def display_tour(self, tournament):
         """display the tours"""
         for tour in tournament.tours:
-            print(tour.name + " " + tour.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S') + " " +
+            print(tour)
+            """"print(tour.name + " " + tour.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S') + " " +
                   tour.end_time.strftime('%m/%d/%Y, %H:%M:%S') if tour.end_time is not None else "")
             for matchs in tour.tour:
                 i = 1
                 for match in matchs:
                     print("match " + str(i) + " :")
-                    print(match)
-                    i = i + 1
+                    print(str(match))
+                    i = i + 1"""
 
     def enter_result(self, association):
         """enter result"""

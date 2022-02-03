@@ -35,5 +35,6 @@ class Tournament:
     def __repr__(self):
         """Used in print."""
         return {'name': self.name, 'location': self.location, 'date': self.date.isoformat(),
-                'time_control': self.time_control, 'description': self.description, 'players': self.players,
+                'time_control': self.time_control, 'description': self.description,
+                'numbers_of_turn': self.numbers_of_turn, 'players': self.players,
                 'tours': self.tours}

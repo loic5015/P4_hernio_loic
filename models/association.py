@@ -19,7 +19,7 @@ class Association:
 
     def __str__(self):
         """Used in print."""
-        return f"{self.player}, {self.result}"
+        return f"{str(self.player)}, {self.result}"
 
     def __repr__(self):
         """Used in print."""

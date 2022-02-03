@@ -5,7 +5,7 @@ class Tour:
 
     def __init__(self, dict_tour: dict) -> None:
         """initialize name, tour, beginning hour, end time"""
-        self.name = name
+        self.name = None
         self.tour = []
         self.beginning_hour = datetime.datetime.now()
         self.end_time = None
@@ -27,4 +27,4 @@ class Tour:
     def __repr__(self):
         """Used in print."""
         return {'name': self.name, 'tour': self.tour, 'beginning_hour': self.beginning_hour.isoformat(),
-                'end_time': self.end_time.isoformat()}
+                'end_time': self.end_time.isoformat() if self.end_time is not None else None}
