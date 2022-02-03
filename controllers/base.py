@@ -1,4 +1,3 @@
-import tinydb.table
 from tinydb import TinyDB, where
 from views.start_menu import StartMenu
 from views.tournament import TournamentMenu
@@ -80,9 +79,9 @@ class Controller:
         elif menu_tournament == 4:
             self.enter_result()
         elif menu_tournament == 5:
-            self.start_menu.prompt_for_choice()
+            self.run()
         else:
-            self.tournament_menu.prompt_for_tournament_menu()
+            self.choice_tournament()
 
     def count_number_of_player(self) -> bool:
         """Verify the number of players"""
@@ -202,7 +201,7 @@ class Controller:
                              (where('surname') == player[1]) & (where('day_of_birth') == player[2]))
         else:
             self.start_menu.unknow_player()
-        self.start_menu.prompt_for_choice()
+        self.run()
 
     def choice_report(self):
         """choice menu report"""
@@ -219,8 +218,10 @@ class Controller:
             self.sort_tournament_by_alphabetical_name()
         elif menu_report == 5:
             self.sort_tournament_by_alphabetical_name()
+        elif menu_report == 7:
+            self.run()
         else:
-            self.report.prompt_for_choice()
+            self.choice_report()
 
     def extract_list(self, table: str) -> list:
         """extract data from table et instantiate object tournament or player"""
@@ -241,21 +242,21 @@ class Controller:
         players = self.extract_list("player")
         list_sorted = self.sort_players_ranking(players)
         self.report.display_list(list_sorted)
-        self.report.prompt_for_choice()
+        self.choice_report()
 
     def sort_player_by_alphabetical_name(self):
         """sort player by alphabetical name"""
         players = self.extract_list("player")
         list_sorted = self.sort_players_alphabetical(players)
         self.report.display_list(list_sorted)
-        self.report.prompt_for_choice()
+        self.choice_report()
 
     def sort_tournament_by_alphabetical_name(self):
         """sort tournament by alphabetical name"""
         tournament = self.extract_list("tournament")
         list_sorted = self.sort_players_alphabetical(tournament)
         self.report.display_list(list_sorted)
-        self.report.prompt_for_choice()
+        self.choice_report()
 
     def sort_players_alphabetical(self, players: list) -> list:
         players_sort_by_alphabetical = []
@@ -300,7 +301,7 @@ class Controller:
             elif main_menu == 3:
                 running = False
             else:
-                self.start_menu.prompt_for_choice()
+                self.run()
             running = self.start_menu.prompt_for_new_game()
         db_player = self.db.table('player')
         db_tournament = self.db.table('tournament')

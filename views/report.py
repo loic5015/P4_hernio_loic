@@ -1,7 +1,9 @@
+
 ITEM_REPORT_MENU = ["Lister tous les acteurs par ordre alphabétique.", "Lister tous les acteurs par classement.",
                "Lister tous les joueurs d'un tournoi par ordre alphabétique.",
                "Lister tous les joueurs d'un tournoi par classement.", "Lister tous les tournois.",
-               "Lister de tous les tours d'un tournoi.", "Lister tous les matchs d'un tournoi"]
+               "Lister de tous les tours d'un tournoi.","Lister tous les matchs d'un tournoi",
+                    "Revenir au menu principal"]
 
 
 class Report:
@@ -26,7 +28,6 @@ class Report:
                 if index not in [x for x in range(len(ITEM_REPORT_MENU))]:
                     print("Votre choix est incorrect !")
                     i = 0
-                    self.prompt_for_choice()
                 else:
                     current_menu = False
                     return index
