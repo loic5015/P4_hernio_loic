@@ -1,6 +1,5 @@
 from controllers.main_controller import Main
-from controllers.report_controller import Report
-from controllers.tournament_controller import TournamentController
+
 
 def main():
     game = Main()

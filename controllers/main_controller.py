@@ -10,8 +10,8 @@ class Main:
     def __init__(self):
         self.start_menu = StartMenu()
         self.db = TinyDB('db.json')
-        self.report = ReportController()
-        self.tournament_controller = TournamentController()
+        self.report = ReportController(self)
+        self.tournament_controller = TournamentController(self)
 
     def modify_ranking_player(self):
         """modify the ranking of a player"""

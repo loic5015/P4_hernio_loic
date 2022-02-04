@@ -32,6 +32,10 @@ class Report:
                     current_menu = False
                     return index
 
+    def display_tournament(self, tournament):
+        print(str(tournament))
+        self.display_list(tournament.tours)
+
     def display_list(self, list_sorted: list):
-        for player in list_sorted:
-            print(str(player))
+        for list in list_sorted:
+            print(str(list))

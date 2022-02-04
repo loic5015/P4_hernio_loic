@@ -30,7 +30,7 @@ class Tournament:
 
     def __str__(self):
         """Used in print."""
-        return f"{self.name:15} {self.location:15} {self.date}"
+        return f"nom: {self.name:15} lieu: {self.location:15} date: {self.date}"
 
     def __repr__(self):
         """Used in print."""

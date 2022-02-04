@@ -2,7 +2,7 @@ ITEM_TOURNAMENT = ["créer un nouveau tournoi", "ajouter un joueur", "generer un
                    "afficher les tours", "entrer les résultats", "reprendre un tournoi", "revenir au menu principal"]
 
 TIME_CONTROL = ["bullet", "blitz", "coup rapide"]
-
+SEXE = ["féminin", "masculin"]
 
 class TournamentMenu:
 
@@ -19,6 +19,7 @@ class TournamentMenu:
                 choice = int(input("tapez votre choix de 0 à " + str(len(ITEM_TOURNAMENT) - 1) + " : "))
             except ValueError:
                 print("Erreur: Vous devez taper un nombre !!")
+                i = 0
             else:
                 if choice not in [x for x in range(len(ITEM_TOURNAMENT))]:
                     print("Votre choix est incorrect !")
@@ -52,10 +53,16 @@ class TournamentMenu:
     def create_new_tournament(self) -> dict:
         """create a new tournament"""
         tournament = {}
-        time_control = None
-        number_of_turns = None
-        tournament['name'] = input("Quel est le nom du tournoi ?")
-        tournament['location'] = input("Quel est le lieu du tournoi ?")
+        current_menu = True
+        while current_menu:
+            tournament['name'] = input("Quel est le nom du tournoi ?")
+            if tournament['name'] is not None:
+                current_menu = False
+        current_menu = True
+        while current_menu:
+            tournament['location'] = input("Quel est le lieu du tournoi ?")
+            if tournament['location'] is not None:
+                current_menu = False
         i = 0
         current_menu = True
         index = None
@@ -75,7 +82,11 @@ class TournamentMenu:
                     i = 0
                 else:
                     current_menu = False
-        tournament['description'] = input("Entrez une description pour le tournoi.")
+        current_menu = True
+        while current_menu:
+            tournament['description'] = input("Entrez une description pour le tournoi.")
+            if tournament['description'] is not None:
+                current_menu = False
         current_menu = True
         while current_menu:
             try:
@@ -90,14 +101,43 @@ class TournamentMenu:
     def add_player(self) -> dict:
         """add a player"""
         player = {}
-        name = input("Entrez le nom du joueur :")
-        player['name'] = name
-        surname = input("Entrez le prénom du joueur :")
-        player['surname'] = surname
-        date_of_birth = input("Entrez la date de naissance du joueur :")
-        player['date_of_birth'] = date_of_birth
-        gender = input("Entrez le sexe du joueur :")
-        player['gender'] = gender
+        current_menu = True
+        while current_menu:
+            name = input("Entrez le nom du joueur :")
+            if name is not None:
+                current_menu = False
+                player['name'] = name
+        current_menu = True
+        while current_menu:
+            surname = input("Entrez le prénom du joueur :")
+            if surname is not None:
+                player['surname'] = surname
+                current_menu = False
+        current_menu = True
+        while current_menu:
+            date_of_birth = input("Entrez la date de naissance du joueur :")
+            if date_of_birth is not None:
+                current_menu = False
+                player['date_of_birth'] = date_of_birth
+        current_menu = True
+        i = 0
+        index = None
+        while current_menu:
+            print("choississez le sexe du joueur :")
+            for choice in SEXE:
+                print(f"[{i} . {choice}]")
+                i = i + 1
+            try:
+                index = int(input("taper 0 ou " + str(len(SEXE) - 1) + " : "))
+            except ValueError:
+                print("Erreur: Vous devez taper un nombre !!")
+                i = 0
+            else:
+                if index not in [x for x in range(len(SEXE))]:
+                    print("Votre choix est incorrect !")
+                    i = 0
+                else:
+                    current_menu = False
         current_menu = True
         ranking = None
         while current_menu:
@@ -108,6 +148,7 @@ class TournamentMenu:
             else:
                 current_menu = False
         player['ranking'] = ranking
+        player['gender'] = SEXE[index]
         return player
 
     def nombre_max_atteint(self):
@@ -129,15 +170,13 @@ class TournamentMenu:
     def display_tour(self, tournament):
         """display the tours"""
         for tour in tournament.tours:
-            print(tour)
-            """"print(tour.name + " " + tour.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S') + " " +
-                  tour.end_time.strftime('%m/%d/%Y, %H:%M:%S') if tour.end_time is not None else "")
+            print(str(tour))
             for matchs in tour.tour:
                 i = 1
                 for match in matchs:
                     print("match " + str(i) + " :")
                     print(str(match))
-                    i = i + 1"""
+                    i = i + 1
 
     def enter_result(self, association):
         """enter result"""

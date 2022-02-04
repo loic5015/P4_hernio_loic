@@ -1,15 +1,19 @@
+import datetime
 from tinydb import TinyDB, where
 from views.report import Report
+from views.tournament import TournamentMenu
 from models.tournament import Tournament
 from models.player import Player
-#from .main_controller import Main
+from models.tour import Tour
 
 
 class ReportController:
 
-    def __init__(self):
+    def __init__(self, main):
         self.report_view = Report()
         self.db = TinyDB('db.json')
+        self.main = main
+        self.tournament_menu = TournamentMenu()
 
     def choice_report(self):
         """choice menu report"""
@@ -25,10 +29,9 @@ class ReportController:
         elif menu_report == 4:
             self.sort_tournament_by_alphabetical_name()
         elif menu_report == 5:
-            self.sort_tournament_by_alphabetical_name()
+            self.display_tour_of_tournament()
         elif menu_report == 7:
-            #self.main.run()
-            pass
+            self.main.run()
         else:
             self.choice_report()
 
@@ -96,3 +99,19 @@ class ReportController:
             players_sort_by_ranking.append(player_max)
             players.remove(player_max)
         return players_sort_by_ranking
+
+    def display_tour_of_tournament(self):
+        tournament_list = self.extract_list('tournament')
+        choice = self.tournament_menu.prompt_for_resume_tournament(tournament_list)
+        tournament = tournament_list[choice]
+        list_tour = []
+        for tour_dict in tournament.tours:
+            tour = Tour(tour_dict)
+            tour.beginning_hour = datetime.datetime.fromisoformat(tour.beginning_hour)
+            if tour.end_time is not None:
+                tour.end_time = datetime.datetime.fromisoformat(tour.end_time)
+            list_tour.append(tour)
+        tournament.tours = list_tour
+        self.report_view.display_tournament(tournament)
+        self.choice_report()
+

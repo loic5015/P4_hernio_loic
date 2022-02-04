@@ -22,7 +22,8 @@ class Tour:
 
     def __str__(self):
         """Used in print."""
-        return f"{self.name} à {self.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S')}"
+        return f"tour: {self.name:8} debut: {self.beginning_hour.strftime('%m/%d/%Y, %H:%M:%S')} fin: " \
+               f"{self.end_time.strftime('%m/%d/%Y, %H:%M:%S') if self.end_time is not None else ''}"
 
     def __repr__(self):
         """Used in print."""

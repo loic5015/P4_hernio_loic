@@ -12,7 +12,8 @@ class Player:
 
     def __str__(self):
         """Used in print."""
-        return f"{self.name:15} {self.surname:15} {self.date_of_birth} {self.gender:10} {self.ranking:6}"
+        return f"nom:{self.name:15} prenom:{self.surname:15} date de naissance:{self.date_of_birth:10} " \
+               f"sexe:{self.gender:10} classement:{self.ranking:6}"
 
     def __repr__(self):
         """Used in print."""
