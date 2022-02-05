@@ -1,4 +1,4 @@
-ITEM_MENU = ["gérer un nouveau tournoi", "visualiser le menu des rapports", "modifier le classement d'un joueur",
+ITEM_MENU = ["gérer les tournois", "visualiser le menu des rapports", "modifier le classement d'un joueur",
              "sortir du programme"]
 
 

@@ -55,7 +55,7 @@ class TournamentController:
                                                          (where('location') == self.tournament.location) &
                                                          (where('date') == self.tournament.date.isoformat()))
                 if verify_tournament:
-                    db_tournament.update({'players': [player.__repr__() for player in self.tournament.players]},
+                    db_tournament.update({'players': [repr(player) for player in self.tournament.players]},
                                          (where('name') == self.tournament.name) &
                                          (where('location') == self.tournament.location) &
                                          (where('date') == self.tournament.date.isoformat()))
@@ -88,6 +88,13 @@ class TournamentController:
     def count_number_of_player(self) -> bool:
         """Verify the number of players"""
         if len(self.tournament.players) >= NUMBER_OF_PLAYER:
+            return False
+        else:
+            return True
+
+    def count_number_of_turns(self) -> bool:
+        """verify the number of turns"""
+        if len(self.tournament.tours) >= self.tournament.numbers_of_turn:
             return False
         else:
             return True
@@ -130,13 +137,12 @@ class TournamentController:
         else:
             for round in self.tour.tour[-1]:
                 for association in round:
-                    print(association)
                     list_association.append(association[0])
         return list_association
 
     def create_round(self):
         """generate the round of the match"""
-        if not self.count_number_of_player():
+        if not self.count_number_of_player() and self.count_number_of_turns():
             list_association = self.test_tour_isNone()
             ranking_classement = self.sort_by_ranking(list_association)
             test_number = True
@@ -180,7 +186,10 @@ class TournamentController:
                                      (where('location') == self.tournament.location) &
                                      (where('date') == self.tournament.date.isoformat()))
         else:
-            self.tournament_menu.number_player_not_reach()
+            if not self.count_number_of_turns():
+                self.tournament_menu.number_of_turns_reach()
+            else:
+                self.tournament_menu.number_player_not_reach()
         self.choice_tournament()
 
     def enter_result(self):
@@ -215,9 +224,8 @@ class TournamentController:
                                      (where('location') == self.tournament.location) &
                                      (where('date') == self.tournament.date.isoformat()))
             self.choice_tournament()
-
-    def resume_tournament(self):
-        """resume a old tournament """
+    def extract_data_from_tinyDB(self):
+        """extract data tournament from tinyDB"""
         tournament_list = self.report.extract_list('tournament')
         choice = self.tournament_menu.prompt_for_resume_tournament(tournament_list)
         self.tournament = tournament_list[choice]
@@ -228,24 +236,22 @@ class TournamentController:
             player = Player(player_dict)
             player_list.append(player)
         for tour_dict in self.tournament.tours:
-            #pprint.pprint(tour_dict)
             tour = Tour(tour_dict)
             tour.beginning_hour = datetime.datetime.fromisoformat(tour.beginning_hour)
             if tour.end_time is not None:
                 tour.end_time = datetime.datetime.fromisoformat(tour.end_time)
             tour_list = []
             for matchs_dict in tour.tour:
-                #pprint.pprint(matchs_dict)
                 match_list = []
                 for matchs_dict in matchs_dict:
-                    #pprint.pprint(matchs_list)
                     match = []
                     for match_dict in matchs_dict:
                         association = []
                         for association_dict in match_dict:
                             pprint.pprint(association_dict)
                             player_asso = Player(association_dict['player'])
-                            association_object = Association({'player': player_asso, 'result': association_dict['result']})
+                            association_object = Association(
+                                {'player': player_asso, 'result': association_dict['result']})
                             association.append(association_object)
                         match.append(association)
                     match_list.append(match)
@@ -255,4 +261,8 @@ class TournamentController:
             self.tour = tour
         self.tournament.tours = tours_list
         self.tournament.players = player_list
+
+    def resume_tournament(self):
+        """resume a old tournament """
+        self.extract_data_from_tinyDB()
         self.choice_tournament()

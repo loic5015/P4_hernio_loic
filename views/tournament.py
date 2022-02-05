@@ -46,7 +46,7 @@ class TournamentMenu:
                 if choice not in [x for x in range(len(list_object))]:
                     print("Votre choix est incorrect !")
                     i = 0
-                    self.prompt_for_resume_tournament()
+                    self.prompt_for_resume_tournament(list_object)
                 current_menu = False
             return choice
 
@@ -158,6 +158,10 @@ class TournamentMenu:
     def number_player_not_reach(self):
         """warning message number of players not reach"""
         print("ils manquent des joueurs pour lancer le tournoi !")
+
+    def number_of_turns_reach(self):
+        """warning message number of players not reach"""
+        print("Vous avez atteint le nombre maximum de tours !")
 
     def tournoi_has_been_create(self):
         """warning message tournament has not been created"""
