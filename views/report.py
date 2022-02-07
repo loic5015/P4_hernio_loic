@@ -40,7 +40,7 @@ class Report:
 
     def display_matchs(self, tournament: Tournament):
         """display matchs in view"""
-        self.display_tournament(tournament)
+        print(str(tournament))
         for tour in tournament.tours:
             print(str(tour))
             for match in tour.tour:

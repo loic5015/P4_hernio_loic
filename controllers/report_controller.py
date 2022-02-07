@@ -9,6 +9,7 @@ from models.association import Association
 
 
 class ReportController:
+    """class controller report"""
 
     def __init__(self, main):
         self.report_view = Report()
@@ -53,7 +54,7 @@ class ReportController:
         return list_object
 
     def sort_player_by_ranking(self):
-        """extract an call the method to sort player by ranking"""
+        """extract and call the method to sort player by ranking"""
         players = self.extract_list("player")
         list_sorted = self.sort_players_ranking(players)
         self.display_list(list_sorted)
@@ -66,28 +67,28 @@ class ReportController:
     def sort_player_by_alphabetical_name(self):
         """extract an call the method to sort player by alphabetical name"""
         players = self.extract_list("player")
-        list_sorted = self.sort_players_alphabetical(players)
+        list_sorted = self.sort_by_alphabetical_order(players)
         self.display_list(list_sorted)
 
     def sort_tournament_by_alphabetical_name(self):
         """extract an call the method to sort tournament by alphabetical name"""
         tournament = self.extract_list("tournament")
-        list_sorted = self.sort_players_alphabetical(tournament)
+        list_sorted = self.sort_by_alphabetical_order(tournament)
         self.display_list(list_sorted)
 
-    def sort_players_alphabetical(self, players: list) -> list:
+    def sort_by_alphabetical_order(self, list_object: list) -> list:
         """sort a player list by alphabetical"""
-        players_sort_by_alphabetical = []
-        while len(players) > 0:
-            player_name_max = ''
-            player_max = None
-            for player in players:
-                if player.name >= player_name_max:
-                    player_max = player
-                    player_name_max = player.name
-            players_sort_by_alphabetical.append(player_max)
-            players.remove(player_max)
-        return players_sort_by_alphabetical
+        list_sort_by_alphabetical = []
+        while len(list_object) > 0:
+            object_name_max = ''
+            object_max = None
+            for instance in list_object:
+                if instance.name >= object_name_max:
+                    object_max = instance
+                    object_name_max = instance.name
+            list_sort_by_alphabetical.append(object_max)
+            list_object.remove(object_max)
+        return list_sort_by_alphabetical
 
     def sort_players_ranking(self, players: list) -> list:
         """sort a player list by ranking"""
@@ -153,7 +154,7 @@ class ReportController:
 
     def display_player_of_tournament_by_alphabatical(self):
         tournament = self.extract_data_tournament()
-        list_players = self.sort_players_alphabetical(tournament.players)
+        list_players = self.sort_by_alphabetical_order(tournament.players)
         self.report_view.display_list(list_players)
         self.choice_report()
 

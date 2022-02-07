@@ -1,5 +1,4 @@
 import datetime
-import pprint
 from tinydb import TinyDB, where
 from views.tournament import TournamentMenu
 from models.tournament import Tournament
@@ -15,6 +14,7 @@ NAME_OF_TOUR = "Round"
 
 
 class TournamentController:
+    """class tournament controller"""
 
     def __init__(self, main):
         self.tournament_menu = TournamentMenu()
@@ -113,10 +113,12 @@ class TournamentController:
         else:
             return True
 
-
     def display_tour(self) -> None:
         """display tour"""
-        self.tournament_menu.display_tour(self.tournament)
+        if self.tour is not None:
+            self.tournament_menu.display_tour(self.tournament)
+        else:
+            self.tournament_menu.tour_has_been_create()
         self.choice_tournament()
 
     def sort_by_ranking(self, list_association: list) -> list:
@@ -142,7 +144,7 @@ class TournamentController:
                 condition = False
         return ranking_classement
 
-    def test_tour_isNone(self) -> list:
+    def test_tour_is_none(self) -> list:
         """"test if a tour is instantiate"""
         list_association = []
         if self.tour is None:
@@ -159,7 +161,7 @@ class TournamentController:
         """generate the round of the match"""
         if not self.count_number_of_player() and self.count_number_of_turns() and \
                 self.verify_previous_tour_is_finished():
-            list_association = self.test_tour_isNone()
+            list_association = self.test_tour_is_none()
             ranking_classement = self.sort_by_ranking(list_association)
             test_number = True
             i = 0
@@ -170,8 +172,9 @@ class TournamentController:
             number_of_tour = 0
             while test_number:
                 if len(self.tournament.tours) == 0:
-                    match = ([ranking_classement[i]], [ranking_classement[i+4]])
-                    dict_match = ([ranking_classement[i].return_dict()], [ranking_classement[i+4].return_dict()])
+                    match = ([ranking_classement[i]], [ranking_classement[i+int(len(self.tournament.players)/2)]])
+                    dict_match = ([ranking_classement[i].return_dict()],
+                                  [ranking_classement[i+int(len(self.tournament.players)/2)].return_dict()])
                     i = i + 1
                     if i >= self.tournament.numbers_of_turn:
                         test_number = False
@@ -184,6 +187,7 @@ class TournamentController:
                         test_number = False
                 matchs.append(match)
                 list_match.append(dict_match)
+
             tour_dict['name'] = NAME_OF_TOUR + " " + str(number_of_tour)
             self.tour = Tour(tour_dict)
             tour_dict = self.tour.__repr__()
@@ -215,8 +219,10 @@ class TournamentController:
         tour_list = []
         if self.tour is None:
             self.tournament_menu.tour_has_been_create()
+        elif self.verify_previous_tour_is_finished():
+            self.tournament_menu.tour_is_over()
         else:
-            list_association = self.test_tour_isNone()
+            list_association = self.test_tour_is_none()
 
             for association in list_association:
                 association.post_result(self.tournament_menu.enter_result(association) + association.get_result())
@@ -241,8 +247,9 @@ class TournamentController:
                                      (where('name') == self.tournament.name) &
                                      (where('location') == self.tournament.location) &
                                      (where('date') == self.tournament.date.isoformat()))
-            self.choice_tournament()
-    def extract_data_from_tinyDB(self):
+        self.choice_tournament()
+
+    def extract_data_from_tinydb(self):
         """extract data tournament from tinyDB"""
         tournament_list = self.report.extract_list('tournament')
         choice = self.tournament_menu.prompt_for_resume_tournament(tournament_list)
@@ -281,11 +288,14 @@ class TournamentController:
 
     def resume_tournament(self):
         """resume a old tournament """
-        self.extract_data_from_tinyDB()
+        self.extract_data_from_tinydb()
         self.choice_tournament()
 
     def display_result_tournament(self):
-        list_association = self.test_tour_isNone()
-        list_sorted = self.sort_by_ranking(list_association)
-        self.report_view.display_list(list_sorted)
+        if self.tournament is not None:
+            list_association = self.test_tour_is_none()
+            list_sorted = self.sort_by_ranking(list_association)
+            self.report_view.display_list(list_sorted)
+        else:
+            self.tournament_menu.tournoi_has_been_create()
         self.choice_tournament()

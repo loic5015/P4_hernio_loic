@@ -6,6 +6,7 @@ from .tournament_controller import TournamentController
 
 
 class Main:
+    """class main controller"""
 
     def __init__(self):
         self.start_menu = StartMenu()
@@ -26,13 +27,10 @@ class Main:
             self.start_menu.unknow_player()
         self.run()
 
-
     def run(self):
         """launch the start menu"""
         running = True
         while running:
-            db_tournament = self.db.table('tournament')
-            db_association = self.db.table('association')
             main_menu = self.start_menu.prompt_for_choice()
             if main_menu == 0:
                 self.tournament_controller.choice_tournament()
@@ -44,9 +42,5 @@ class Main:
                 running = False
             else:
                 self.run()
-            running = self.start_menu.prompt_for_new_game()
-        db_player = self.db.table('player')
-        db_tournament = self.db.table('tournament')
-        print(db_tournament.all())
-        print(db_player.all())
+
 

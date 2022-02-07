@@ -165,6 +165,10 @@ class TournamentMenu:
         """warning message number of players not reach"""
         print("ils manquent des joueurs pour lancer le tournoi !")
 
+    def tour_is_over(self):
+        """warning message number of players not reach"""
+        print("Le tour est terminé !")
+
     def number_of_turns_reach(self):
         """warning message number of players not reach"""
         print("Vous avez atteint le nombre maximum de tours !")

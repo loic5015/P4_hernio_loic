@@ -16,7 +16,7 @@ class StartMenu:
                 print(f"[{i} . {choice}]")
                 i = i + 1
             try:
-                index = int(input("taper 0 ou " + str(len(ITEM_MENU) - 1) + " : "))
+                index = int(input("taper de 0 à " + str(len(ITEM_MENU) - 1) + " : "))
             except ValueError:
                 print("Erreur: Vous devez taper un nombre !!")
                 i = 0
