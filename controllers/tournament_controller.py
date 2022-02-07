@@ -7,6 +7,7 @@ from models.player import Player
 from models.association import Association
 from models.tour import Tour
 from .report_controller import ReportController
+from views.report import Report
 
 
 NUMBER_OF_PLAYER = 8
@@ -22,6 +23,7 @@ class TournamentController:
         self.tour = None
         self.main = main
         self.report = ReportController(self.main)
+        self.report_view = Report()
 
     def create_tournament(self):
         """instantiate a new tournament"""
@@ -55,7 +57,7 @@ class TournamentController:
                                                          (where('location') == self.tournament.location) &
                                                          (where('date') == self.tournament.date.isoformat()))
                 if verify_tournament:
-                    db_tournament.update({'players': [repr(player) for player in self.tournament.players]},
+                    db_tournament.update({'players': [player.__repr__() for player in self.tournament.players]},
                                          (where('name') == self.tournament.name) &
                                          (where('location') == self.tournament.location) &
                                          (where('date') == self.tournament.date.isoformat()))
@@ -79,18 +81,30 @@ class TournamentController:
         elif menu_tournament == 4:
             self.enter_result()
         elif menu_tournament == 5:
-            self.resume_tournament()
+            self.display_result_tournament()
         elif menu_tournament == 6:
+            self.resume_tournament()
+        elif menu_tournament == 7:
             self.main.run()
         else:
             self.choice_tournament()
 
     def count_number_of_player(self) -> bool:
         """Verify the number of players"""
-        if len(self.tournament.players) >= NUMBER_OF_PLAYER:
-            return False
+        if self.tournament is not None:
+            if len(self.tournament.players) >= NUMBER_OF_PLAYER:
+                return False
+            else:
+                return True
         else:
             return True
+
+    def verify_previous_tour_is_finished(self):
+        """verify if the last tour is finished"""
+        if self.tour is not None:
+            if self.tour.end_time is None:
+                return False
+        return True
 
     def count_number_of_turns(self) -> bool:
         """verify the number of turns"""
@@ -98,6 +112,7 @@ class TournamentController:
             return False
         else:
             return True
+
 
     def display_tour(self) -> None:
         """display tour"""
@@ -142,7 +157,8 @@ class TournamentController:
 
     def create_round(self):
         """generate the round of the match"""
-        if not self.count_number_of_player() and self.count_number_of_turns():
+        if not self.count_number_of_player() and self.count_number_of_turns() and \
+                self.verify_previous_tour_is_finished():
             list_association = self.test_tour_isNone()
             ranking_classement = self.sort_by_ranking(list_association)
             test_number = True
@@ -186,10 +202,12 @@ class TournamentController:
                                      (where('location') == self.tournament.location) &
                                      (where('date') == self.tournament.date.isoformat()))
         else:
-            if not self.count_number_of_turns():
+            if self.count_number_of_player():
+                self.tournament_menu.number_player_not_reach()
+            elif not self.count_number_of_turns():
                 self.tournament_menu.number_of_turns_reach()
             else:
-                self.tournament_menu.number_player_not_reach()
+                self.tournament_menu.previous_tour_not_finish()
         self.choice_tournament()
 
     def enter_result(self):
@@ -248,7 +266,6 @@ class TournamentController:
                     for match_dict in matchs_dict:
                         association = []
                         for association_dict in match_dict:
-                            pprint.pprint(association_dict)
                             player_asso = Player(association_dict['player'])
                             association_object = Association(
                                 {'player': player_asso, 'result': association_dict['result']})
@@ -265,4 +282,10 @@ class TournamentController:
     def resume_tournament(self):
         """resume a old tournament """
         self.extract_data_from_tinyDB()
+        self.choice_tournament()
+
+    def display_result_tournament(self):
+        list_association = self.test_tour_isNone()
+        list_sorted = self.sort_by_ranking(list_association)
+        self.report_view.display_list(list_sorted)
         self.choice_tournament()

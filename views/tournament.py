@@ -1,8 +1,11 @@
 ITEM_TOURNAMENT = ["créer un nouveau tournoi", "ajouter un joueur", "generer un nouveau tour",
-                   "afficher les tours", "entrer les résultats", "reprendre un tournoi", "revenir au menu principal"]
+                   "afficher les tours", "entrer les résultats", "afficher les résultats du tournoi",
+                   "reprendre un tournoi", "revenir au menu principal"]
 
 TIME_CONTROL = ["bullet", "blitz", "coup rapide"]
 SEXE = ["féminin", "masculin"]
+NUMBER_OF_TURN = 4
+
 
 class TournamentMenu:
 
@@ -89,8 +92,11 @@ class TournamentMenu:
                 current_menu = False
         current_menu = True
         while current_menu:
+            number = input("Entrez le nombre de tour (facultatif par défaut 4) :")
+            if number == "":
+                number = NUMBER_OF_TURN
             try:
-                tournament['numbers_of_turn'] = int(input("Entrez le nombre de tour (facultatif par défaut 4) :"))
+                tournament['numbers_of_turn'] = int(number)
             except ValueError:
                 print("Vous n'avez pas rentré un nombre !!")
             else:
@@ -170,6 +176,10 @@ class TournamentMenu:
     def tour_has_been_create(self):
         """warning message tournament has not been created"""
         print("Vous devez creer un tour !")
+
+    def previous_tour_not_finish(self):
+        """warning message previous tour not finished"""
+        print("Vous devez entrez les résultats du tour précédent !")
 
     def display_tour(self, tournament):
         """display the tours"""
