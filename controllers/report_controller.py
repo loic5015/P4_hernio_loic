@@ -1,5 +1,5 @@
 import datetime
-from tinydb import TinyDB, where
+from tinydb import TinyDB
 from views.report import Report
 from views.tournament import TournamentMenu
 from models.tournament import Tournament
@@ -163,6 +163,3 @@ class ReportController:
         list_players = self.sort_players_ranking(tournament.players)
         self.report_view.display_list(list_players)
         self.choice_report()
-
-
-

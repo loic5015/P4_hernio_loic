@@ -31,8 +31,8 @@ class TournamentController:
         self.tournament = Tournament(tournament_dict)
         db_tournament = self.db.table('tournament')
         verify_tournament = db_tournament.search((where('name') == self.tournament.name) &
-                                         (where('location') == self.tournament.location) &
-                                         (where('date') == self.tournament.date))
+                                                 (where('location') == self.tournament.location) &
+                                                 (where('date') == self.tournament.date))
         if not verify_tournament:
             db_tournament.insert(self.tournament.__repr__())
         self.tour = None

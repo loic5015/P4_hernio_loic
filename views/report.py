@@ -1,9 +1,9 @@
 from models.tournament import Tournament
 
 ITEM_REPORT_MENU = ["Lister tous les acteurs par ordre alphabétique.", "Lister tous les acteurs par classement.",
-               "Lister tous les joueurs d'un tournoi par ordre alphabétique.",
-               "Lister tous les joueurs d'un tournoi par classement.", "Lister tous les tournois.",
-               "Lister de tous les tours d'un tournoi.","Lister tous les matchs d'un tournoi",
+                    "Lister tous les joueurs d'un tournoi par ordre alphabétique.",
+                    "Lister tous les joueurs d'un tournoi par classement.", "Lister tous les tournois.",
+                    "Lister de tous les tours d'un tournoi.", "Lister tous les matchs d'un tournoi",
                     "Revenir au menu principal"]
 
 
@@ -21,7 +21,8 @@ class Report:
                 print(f"[{i} . {choice}]")
                 i = i + 1
             try:
-                index = int(input("taper 0 ou " + str(len(ITEM_REPORT_MENU) - 1) + " : "))
+                choice = input("taper 0 ou " + str(len(ITEM_REPORT_MENU) - 1) + " : ")
+                index = int(choice)
             except ValueError:
                 print("Erreur: Vous devez taper un nombre !!")
                 i = 0

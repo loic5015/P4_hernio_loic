@@ -42,5 +42,3 @@ class Main:
                 running = False
             else:
                 self.run()
-
-

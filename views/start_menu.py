@@ -16,7 +16,8 @@ class StartMenu:
                 print(f"[{i} . {choice}]")
                 i = i + 1
             try:
-                index = int(input("taper de 0 à " + str(len(ITEM_MENU) - 1) + " : "))
+                choice = input("taper de 0 à " + str(len(ITEM_MENU) - 1) + " : ")
+                index = int(choice)
             except ValueError:
                 print("Erreur: Vous devez taper un nombre !!")
                 i = 0
@@ -28,7 +29,6 @@ class StartMenu:
                 else:
                     current_menu = False
                     return index
-
 
     def prompt_for_new_game(self):
         """Request to replay."""
