@@ -187,7 +187,6 @@ class TournamentController:
                         test_number = False
                 matchs.append(match)
                 list_match.append(dict_match)
-
             tour_dict['name'] = NAME_OF_TOUR + " " + str(number_of_tour)
             self.tour = Tour(tour_dict)
             tour_dict = self.tour.__repr__()
