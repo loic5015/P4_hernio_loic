@@ -141,7 +141,7 @@ class TournamentController:
                         classement_max = association.get_result()
             ranking_classement.append(association_max)
             list_association.remove(association_max)
-            if len(ranking_classement) >= (self.tournament.numbers_of_turn*2):
+            if len(ranking_classement) >= len(self.tournament.players):
                 condition = False
         return ranking_classement
 
@@ -177,7 +177,7 @@ class TournamentController:
                     dict_match = ([ranking_classement[i].return_dict()],
                                   [ranking_classement[i+int(len(self.tournament.players)/2)].return_dict()])
                     i = i + 1
-                    if i >= self.tournament.numbers_of_turn:
+                    if i >= int(len(self.tournament.players)/2):
                         test_number = False
                 else:
                     match = ([ranking_classement[i]], [ranking_classement[i+1]])
@@ -190,7 +190,7 @@ class TournamentController:
                             matchs = result
                             list_match = result_dict
                     number_of_tour = len(self.tournament.tours)
-                    if i >= (self.tournament.numbers_of_turn * 2) - 1:
+                    if i >= len(self.tournament.players) - 1:
                         test_number = False
                 matchs.append(match)
                 list_match.append(dict_match)
