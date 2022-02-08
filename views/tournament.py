@@ -13,6 +13,7 @@ class TournamentMenu:
         """prompt for tournament menu"""
         print("Choississez l'action à réaliser:")
         i = 0
+        choice = None
         current_menu = True
         while current_menu:
             for menu in ITEM_TOURNAMENT:
@@ -27,9 +28,9 @@ class TournamentMenu:
                 if choice not in [x for x in range(len(ITEM_TOURNAMENT))]:
                     print("Votre choix est incorrect !")
                     i = 0
-                    self.prompt_for_tournament_menu()
-                current_menu = False
-                return choice
+                else:
+                    current_menu = False
+        return choice
 
     def prompt_for_resume_tournament(self, list_object: list) -> int:
         """prompt for tournament menu"""
@@ -49,9 +50,9 @@ class TournamentMenu:
                 if choice not in [x for x in range(len(list_object))]:
                     print("Votre choix est incorrect !")
                     i = 0
-                    self.prompt_for_resume_tournament(list_object)
-                current_menu = False
-            return choice
+                else:
+                    current_menu = False
+        return choice
 
     def create_new_tournament(self) -> dict:
         """create a new tournament"""

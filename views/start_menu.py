@@ -25,10 +25,9 @@ class StartMenu:
                 if index not in [x for x in range(len(ITEM_MENU))]:
                     print("Votre choix est incorrect !")
                     i = 0
-                    self.prompt_for_choice()
                 else:
                     current_menu = False
-                    return index
+        return index
 
     def prompt_for_new_game(self):
         """Request to replay."""

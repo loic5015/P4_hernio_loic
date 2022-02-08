@@ -32,7 +32,7 @@ class Report:
                     i = 0
                 else:
                     current_menu = False
-                    return index
+        return index
 
     def display_tournament(self, tournament: Tournament):
         """display tournament in view"""
