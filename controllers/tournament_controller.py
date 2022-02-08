@@ -1,4 +1,5 @@
 import datetime
+
 from tinydb import TinyDB, where
 from views.tournament import TournamentMenu
 from models.tournament import Tournament
@@ -140,7 +141,7 @@ class TournamentController:
                         classement_max = association.get_result()
             ranking_classement.append(association_max)
             list_association.remove(association_max)
-            if len(ranking_classement) >= NUMBER_OF_PLAYER:
+            if len(ranking_classement) >= (self.tournament.numbers_of_turn*2):
                 condition = False
         return ranking_classement
 
@@ -182,8 +183,14 @@ class TournamentController:
                     match = ([ranking_classement[i]], [ranking_classement[i+1]])
                     dict_match = ([ranking_classement[i].return_dict()], [ranking_classement[i+1].return_dict()])
                     i = i + 2
+                    if len(matchs) == 2:
+                        result = self.verify_previous_tour(matchs)
+                        result_dict = self.verify_previous_tour(list_match)
+                        if result is not None:
+                            matchs = result
+                            list_match = result_dict
                     number_of_tour = len(self.tournament.tours)
-                    if i >= NUMBER_OF_PLAYER - 1:
+                    if i >= (self.tournament.numbers_of_turn * 2) - 1:
                         test_number = False
                 matchs.append(match)
                 list_match.append(dict_match)
@@ -291,6 +298,7 @@ class TournamentController:
         self.choice_tournament()
 
     def display_result_tournament(self):
+        """display the result of the tournament"""
         if self.tournament is not None:
             list_association = self.test_tour_is_none()
             list_sorted = self.sort_by_ranking(list_association)
@@ -298,3 +306,13 @@ class TournamentController:
         else:
             self.tournament_menu.tournoi_has_been_create()
         self.choice_tournament()
+
+    def verify_previous_tour(self, matchs: list) -> list:
+        """test if a match has been already play"""
+        list_match = []
+        mod_matchs = None
+        for tour in self.tournament.tours:
+            list_match = list_match + tour.tour[0]
+        if matchs[0] in list_match:
+            mod_matchs = [(matchs[0][0], matchs[1][0]), (matchs[0][1], matchs[1][1])]
+        return mod_matchs
