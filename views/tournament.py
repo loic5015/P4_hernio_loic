@@ -102,6 +102,15 @@ class TournamentMenu:
                 print("Vous n'avez pas rentré un nombre !!")
             else:
                 current_menu = False
+        current_menu = True
+        while current_menu:
+            number = input("Entrez le nombre de joueurs :")
+            try:
+                tournament['numbers_of_players'] = int(number)
+            except ValueError:
+                print("Vous n'avez pas rentré un nombre !!")
+            else:
+                current_menu = False
         tournament['time_control'] = TIME_CONTROL[index]
         return tournament
 

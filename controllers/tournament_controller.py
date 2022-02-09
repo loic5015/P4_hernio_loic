@@ -10,7 +10,6 @@ from .report_controller import ReportController
 from views.report import Report
 
 
-NUMBER_OF_PLAYER = 8
 NAME_OF_TOUR = "Round"
 
 
@@ -93,7 +92,7 @@ class TournamentController:
     def count_number_of_player(self) -> bool:
         """Verify the number of players"""
         if self.tournament is not None:
-            if len(self.tournament.players) >= NUMBER_OF_PLAYER:
+            if len(self.tournament.players) >= self.tournament.numbers_of_players:
                 return False
             else:
                 return True

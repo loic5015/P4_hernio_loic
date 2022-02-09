@@ -15,6 +15,7 @@ class Tournament:
         self.time_control = None
         self.description = None
         self.numbers_of_turn = None
+        self.numbers_of_players = None
         self.players = []
         self.tours = []
         for key in dict_tournament:
@@ -37,4 +38,4 @@ class Tournament:
         return {'name': self.name, 'location': self.location, 'date': self.date.isoformat(),
                 'time_control': self.time_control, 'description': self.description,
                 'numbers_of_turn': self.numbers_of_turn, 'players': self.players,
-                'tours': self.tours}
+                'tours': self.tours, 'numbers_of_players': self.numbers_of_players}
